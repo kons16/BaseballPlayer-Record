@@ -44,6 +44,7 @@ def searchulr(name):
 	print(career)
 	print("{0}試合 打率{1} {2}本 {3}打点 OPS{4}"
 		.format(gamecount,hitrate,homerun,rbi,ops))
+	print()
 
 
 
