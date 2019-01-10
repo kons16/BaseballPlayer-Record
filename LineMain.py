@@ -68,7 +68,12 @@ def search(name):
     yjm = soup.find_all("tr", class_="yjM")[0]
     yjmops = soup.find_all("tr", class_="yjM")[1]
     profile = soup.find_all("div", class_="yjS")[0]
+    info = soup.find_all("div", class_="NpbTeamTop")[1] # 本名と守備位置
     
+    # 本名
+    fullname = info.find("h1").contents[0]
+    # 守備位置
+    position = info.find("span", class_="position").contents[0]
     # 生年月日
     old = profile.find_all("td")[1].contents[0]
     # 経歴
@@ -84,7 +89,7 @@ def search(name):
     # OPS
     ops = yjmops.find_all("td")[9].contents[0]
 
-    ans = name+"\n"+old+"\n"+career+"\n"+"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"+"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
+    ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"+"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"+"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
     return ans
 
 
