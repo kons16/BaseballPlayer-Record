@@ -27,32 +27,6 @@ handler = WebhookHandler('YOUR_CHANNEL_SECRET')
 def hello_world():
     return "hello world!"
 
-
-@app.route('/callback', methods=['POST'])
-def callback():
-    # X-Line-Signatureヘッダーの取得
-    signature = request.headers['X-Line-Signature']
-
-    # リクエストの取得
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-
-    # handle webhook body
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-
-    return 'OK'
-
-
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text)
-    )
-
 def search(name):
     s = name
     sq = urllib.parse.quote(s)
