@@ -20,8 +20,12 @@ lineapp = Flask(__name__)
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
 YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
 
-line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(YOUR_CHANNEL_SECRET)
+line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
+handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+
+@app.route("/")
+def hello_world():
+    return "hello world!"
 
 
 @app.route('/callback', methods=['POST'])
@@ -86,8 +90,6 @@ def search(name):
 
 
 if __name__ == "__main__":
-#    app.run()
-    port = int(os.getenv("PORT", 5000))
-    lineapp.run(host="0.0.0.0", port=port)
+    lineapp.run()
 
 
