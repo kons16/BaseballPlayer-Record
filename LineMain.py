@@ -17,15 +17,41 @@ from linebot.models import (
 lineapp = Flask(__name__)
 
 # 環境変数取得
-YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
-YOUR_CHANNEL_SECRET = os.environ["YOUR_CHANNEL_SECRET"]
+YOUR_CHANNEL_ACCESS_TOKEN = os.environ['YOUR_CHANNEL_ACCESS_TOKEN']
+YOUR_CHANNEL_SECRET = os.environ['YOUR_CHANNEL_SECRET']
 
-line_bot_api = LineBotApi('YOUR_CHANNEL_ACCESS_TOKEN')
-handler = WebhookHandler('YOUR_CHANNEL_SECRET')
+line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
+handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-@app.route("/")
+@lineapp.route("/")
 def hello_world():
     return "hello world!"
+
+@lineapp.route("/callback", methods=['POST'])
+def callback():
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
+
+    # get request body as text
+    body = request.get_data(as_text=True)
+    lineapp.logger.info("Request body: " + body)
+
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+
+    return 'OK'
+
+
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    msg = search(event.message.text)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=msg))
+
 
 def search(name):
     s = name
@@ -37,15 +63,12 @@ def search(name):
     # 選手データのページ
     dataurl = [a.get("href") for a in soup.find_all("a")][3]
 
-
     dataurl = requests.get(dataurl).content
     soup = BeautifulSoup(dataurl, "html.parser")
     yjm = soup.find_all("tr", class_="yjM")[0]
     yjmops = soup.find_all("tr", class_="yjM")[1]
     profile = soup.find_all("div", class_="yjS")[0]
-
     
-    global old,career,hitrate,gamecount,homerun,rbi,ops
     # 生年月日
     old = profile.find_all("td")[1].contents[0]
     # 経歴
@@ -61,9 +84,11 @@ def search(name):
     # OPS
     ops = yjmops.find_all("td")[9].contents[0]
 
+    ans = name+"\n"+old+"\n"+career+"\n"+"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"+"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
+    return ans
 
 
-if __name__ == "__main__":
-    lineapp.run()
+if __name__ == '__main__':
+    lineapp.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
 
 
