@@ -1,4 +1,3 @@
 # YakyuSensyu
 プロ野球選手の名前を送信すると, 成績を返信するLINE Botです.  
-
-![2019-01-10 22 50 01](https://user-images.githubusercontent.com/31591102/50972543-43b11800-152a-11e9-8999-2378da886390.jpg)
+<img src="https://user-images.githubusercontent.com/31591102/51009609-231da800-1594-11e9-88e5-9be5aac3a9cb.jpg" height="520" width="300">
