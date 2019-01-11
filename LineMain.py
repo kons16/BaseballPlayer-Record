@@ -78,18 +78,45 @@ def search(name):
     old = profile.find_all("td")[1].contents[0]
     # 経歴
     career = profile.find_all("td")[7].contents[0]
-    # 打率
-    hitrate = yjm.find_all("td")[0].contents[0]
-    # 試合数
-    gamecount = yjm.find_all("td")[1].contents[0]
-    # 本塁打数
-    homerun = yjm.find_all("td")[7].contents[0]
-    # 打点数
-    rbi = yjm.find_all("td")[9].contents[0]
-    # OPS
-    ops = yjmops.find_all("td")[9].contents[0]
 
-    ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"+"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"+"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
+    # 野手か投手か判別
+    if position == "投手":
+        # 防御率
+        era = yjm.find_all("td")[0].contents[0]
+        # 登板数
+        gamecount = yjm.find_all("td")[1].contents[0]
+        # 勝利数
+        win = yjm.find_all("td")[8].contents[0]
+        # 敗戦数
+        lose = yjm.find_all("td")[9].contents[0]
+        # ホールド
+        hold = yjm.find_all("td")[10].contents[0]
+        # セーブ
+        save = yjm.find_all("td")[12].contents[0]
+
+        print("防御率:{0} 登板数:{1} 勝利:{2} 敗戦:{3} ホールド:{4} セーブ:{5}"
+                .format(era,gamecount,win,lose,hold,save))
+        ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"
+                +"防御率: "+era+"\n"+"登板数: "+gamecount+"\n"
+                +"勝利: "+win+"\n"+"敗戦: "+lose+"\n"+"ホールド: "+hold+"\n"
+                +"セーブ: "+save
+
+    else:
+        # 打率
+        hitrate = yjm.find_all("td")[0].contents[0]
+        # 試合数
+        gamecount = yjm.find_all("td")[1].contents[0]
+        # 本塁打数
+        homerun = yjm.find_all("td")[7].contents[0]
+        # 打点数
+        rbi = yjm.find_all("td")[9].contents[0]
+        # OPS
+        ops = yjmops.find_all("td")[9].contents[0]
+
+        ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"
+                +"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"
+                +"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
+
     return ans
 
 
