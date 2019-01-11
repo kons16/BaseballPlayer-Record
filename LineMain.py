@@ -96,10 +96,7 @@ def search(name):
 
         print("防御率:{0} 登板数:{1} 勝利:{2} 敗戦:{3} ホールド:{4} セーブ:{5}"
                 .format(era,gamecount,win,lose,hold,save))
-        ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"
-                +"防御率: "+era+"\n"+"登板数: "+gamecount+"\n"
-                +"勝利: "+win+"\n"+"敗戦: "+lose+"\n"+"ホールド: "+hold+"\n"
-                +"セーブ: "+save
+        ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"+"防御率: "+era+"\n"+"登板数: "+gamecount+"\n"+"勝利: "+win+"\n"+"敗戦: "+lose+"\n"+"ホールド: "+hold+"\n"+"セーブ: "+save
 
     else:
         # 打率
@@ -113,9 +110,8 @@ def search(name):
         # OPS
         ops = yjmops.find_all("td")[9].contents[0]
 
-        ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"
-                +"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"
-                +"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
+        ans = fullname+"("+position+")"+"\n"+old+"\n"+career+"\n"+"打率: "+hitrate+"\n"+"試合数: "+gamecount+"\n"+"本塁打: "+homerun+"\n"+"打点: "+rbi+"\n"+"OPS: "+ops
+
 
     return ans
 
