@@ -1,4 +1,3 @@
-# 野手のみ
 import requests
 import codecs
 import urllib.parse
